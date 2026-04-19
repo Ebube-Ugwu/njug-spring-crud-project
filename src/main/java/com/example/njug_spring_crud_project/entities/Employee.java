@@ -3,6 +3,8 @@ package com.example.njug_spring_crud_project.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -52,11 +54,13 @@ public class Employee {
 
     @NotNull
     @Column(name = "active")
-    private Boolean active;
+    private Boolean active = true;
 
     @Column(name = "created_at" ,updatable = false)
+    @CreationTimestamp
     private LocalDateTime createdAt;
 
     @Column(name = "updated_at" ,updatable = false)
+    @UpdateTimestamp
     private LocalDateTime updatedAt;
 }
