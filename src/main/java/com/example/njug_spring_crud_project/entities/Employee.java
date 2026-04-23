@@ -44,7 +44,6 @@ public class Employee {
     private String department;
 
     @Column(name = "salary")
-    @NotBlank
     @DecimalMin("0.00")
     private BigDecimal salary;
 

@@ -1,12 +1,13 @@
 package com.example.njug_spring_crud_project.controllers;
 
 import com.example.njug_spring_crud_project.dtos.EmployeeDto;
+import com.example.njug_spring_crud_project.dtos.NewEmployeeRequestDto;
 import com.example.njug_spring_crud_project.services.EmployeeService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 
@@ -20,5 +21,14 @@ public class EmployeeController {
     public ResponseEntity<List<EmployeeDto>> getAllEmployees() {
         var employees = employeeService.getAllEmployees();
         return ResponseEntity.ok(employees);
+    }
+
+    @PostMapping
+    public ResponseEntity<?> createEmployee(@Valid @RequestBody NewEmployeeRequestDto requestDto, UriComponentsBuilder uriComponentsBuilder) {
+       var employeeDto = employeeService.createEmployee(requestDto);
+       var uri = uriComponentsBuilder.path("employees/{id}")
+               .buildAndExpand(employeeDto.id()).toUri();
+       return ResponseEntity.created(uri).body(employeeDto);
+
     }
 }
