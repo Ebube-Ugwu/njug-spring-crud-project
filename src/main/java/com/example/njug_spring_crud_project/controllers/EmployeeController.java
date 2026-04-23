@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -20,6 +21,15 @@ public class EmployeeController {
     @GetMapping
     public ResponseEntity<List<EmployeeResponseDto>> getAllEmployees() {
         var employees = employeeService.getAllEmployees();
+        return ResponseEntity.ok(employees);
+    }
+
+    @GetMapping("/salary-range")
+    public ResponseEntity<List<EmployeeResponseDto>> getEmployeesBySalaryRange(
+            @RequestParam("min") BigDecimal min,
+            @RequestParam("max") BigDecimal max) {
+        var employees = employeeService.getEmployeesBySalaryRang(min,
+                max);
         return ResponseEntity.ok(employees);
     }
 

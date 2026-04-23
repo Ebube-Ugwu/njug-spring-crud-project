@@ -2,6 +2,9 @@
 GET http://localhost:7000/api/v1/employees
 
 
+### GET request to fetch employees within a salary range
+GET http://localhost:7000/api/v1/employees/salary-range?min=70000&max=90000
+
 ### POST request to add a new employee
 POST localhost:7000/api/v1/employees
 Content-Type: application/json

@@ -2,6 +2,7 @@ package com.example.njug_spring_crud_project.services;
 
 import com.example.njug_spring_crud_project.dtos.EmployeeResponseDto;
 import com.example.njug_spring_crud_project.dtos.EmployeeRequestDto;
+import com.example.njug_spring_crud_project.entities.Employee;
 import com.example.njug_spring_crud_project.exceptions.DuplicateEmailException;
 import com.example.njug_spring_crud_project.exceptions.EmployeeNotFoundException;
 import com.example.njug_spring_crud_project.mappers.EmployeeMapper;
@@ -11,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -77,5 +79,16 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
         employee.setActive(false);
         employeeRepository.save(employee);
+    }
+
+    @Transactional
+    @Override
+    public List<EmployeeResponseDto> getEmployeesBySalaryRang(
+            BigDecimal min,
+            BigDecimal max) {
+    List<Employee> employees  = employeeRepository.findBySalaryRange(min, max);
+    return employees.stream()
+            .map(employeeMapper::toDto)
+            .toList();
     }
 }

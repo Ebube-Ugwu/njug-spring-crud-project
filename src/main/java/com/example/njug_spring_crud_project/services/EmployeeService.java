@@ -4,6 +4,7 @@ import com.example.njug_spring_crud_project.dtos.EmployeeResponseDto;
 import com.example.njug_spring_crud_project.dtos.EmployeeRequestDto;
 import jakarta.transaction.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface EmployeeService {
@@ -18,4 +19,9 @@ public interface EmployeeService {
 
     @Transactional
     void deleteEmployeeSoft(Long id);
+
+    @Transactional
+    List<EmployeeResponseDto> getEmployeesBySalaryRang(
+            BigDecimal min,
+            BigDecimal max);
 }
