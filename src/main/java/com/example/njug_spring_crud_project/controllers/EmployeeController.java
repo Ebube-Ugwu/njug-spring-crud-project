@@ -1,7 +1,7 @@
 package com.example.njug_spring_crud_project.controllers;
 
-import com.example.njug_spring_crud_project.dtos.EmployeeDto;
-import com.example.njug_spring_crud_project.dtos.NewEmployeeRequestDto;
+import com.example.njug_spring_crud_project.dtos.EmployeeResponseDto;
+import com.example.njug_spring_crud_project.dtos.EmployeeRequestDto;
 import com.example.njug_spring_crud_project.services.EmployeeService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -18,13 +18,13 @@ public class EmployeeController {
     private final EmployeeService employeeService;
 
     @GetMapping
-    public ResponseEntity<List<EmployeeDto>> getAllEmployees() {
+    public ResponseEntity<List<EmployeeResponseDto>> getAllEmployees() {
         var employees = employeeService.getAllEmployees();
         return ResponseEntity.ok(employees);
     }
 
     @PostMapping
-    public ResponseEntity<?> createEmployee(@Valid @RequestBody NewEmployeeRequestDto requestDto, UriComponentsBuilder uriComponentsBuilder) {
+    public ResponseEntity<?> createEmployee(@Valid @RequestBody EmployeeRequestDto requestDto, UriComponentsBuilder uriComponentsBuilder) {
        var employeeDto = employeeService.createEmployee(requestDto);
        var uri = uriComponentsBuilder.path("employees/{id}")
                .buildAndExpand(employeeDto.id()).toUri();
@@ -33,8 +33,29 @@ public class EmployeeController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<EmployeeDto> getEmployee(@PathVariable Long id) {
+    public ResponseEntity<EmployeeResponseDto> getEmployee(@PathVariable Long id) {
         var employeeDto = employeeService.getEmployee(id);
         return ResponseEntity.ok(employeeDto);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<EmployeeResponseDto> updateEmployee(
+            @PathVariable Long id,
+            @RequestBody EmployeeRequestDto requestDto) {
+        var employeeDto = employeeService.updateEmployee(id,
+                requestDto);
+        return ResponseEntity.ok(employeeDto);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteEmployeeSoft(@PathVariable Long id) {
+        employeeService.deleteEmployeeSoft(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/{id}/hard")
+    public ResponseEntity<Void> deleteEmployeeHard(@PathVariable Long id) {
+        employeeService.deleteEmployeeHard(id);
+        return ResponseEntity.noContent().build();
     }
 }

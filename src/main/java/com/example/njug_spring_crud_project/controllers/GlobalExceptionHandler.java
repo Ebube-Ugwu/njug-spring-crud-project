@@ -23,4 +23,11 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Void> handleEmployeeNotFoundException() {
         return ResponseEntity.notFound().build();
     }
+
+    @ExceptionHandler(IllegalStateException.class)
+    public ResponseEntity<Map<String, String>> handleIllegalStateException(IllegalStateException ex) {
+        return ResponseEntity.badRequest().body(
+                Map.of(ex.toString(), ex.getMessage())
+        );
+    }
 }

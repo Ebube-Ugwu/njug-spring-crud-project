@@ -18,3 +18,33 @@ Content-Type: application/json
 
 ### GET request to fetch an employee by id
 GET http://localhost:7000/api/v1/employees/2
+
+### PUT request to update an employee
+PUT http://localhost:7000/api/v1/employees/2
+Content-Type: application/json
+
+{
+         "firstName": "updatedEmployee",
+         "lastName": "updatedEmployee",
+         "email": "updatedEmployee@email.com",
+         "department": "IT",
+         "salary": 20000,
+         "active": true
+         }
+
+
+### PATCH request to update an employee partially
+PUT http://localhost:7000/api/v1/employees/2
+Content-Type: application/json
+
+{
+  "firstName": "pathcedEmployee",
+  "lastName": "patchedEmployee"
+
+}
+
+### DELETE user by id softly
+DELETE http://localhost:7000/api/v1/employees/2
+
+### DELETE user by id hard!
+DELETE http://localhost:7000/api/v1/employees/2/hard

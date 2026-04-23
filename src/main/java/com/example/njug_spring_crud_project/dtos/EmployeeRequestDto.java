@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-public record NewEmployeeRequestDto(
+public record EmployeeRequestDto(
         @NotBlank(message = "first name is required")
         String firstName,
         @NotBlank(message = "last name is required")

@@ -1,14 +1,21 @@
 package com.example.njug_spring_crud_project.services;
 
-import com.example.njug_spring_crud_project.dtos.EmployeeDto;
-import com.example.njug_spring_crud_project.dtos.NewEmployeeRequestDto;
-import org.springframework.stereotype.Service;
+import com.example.njug_spring_crud_project.dtos.EmployeeResponseDto;
+import com.example.njug_spring_crud_project.dtos.EmployeeRequestDto;
+import jakarta.transaction.Transactional;
 
 import java.util.List;
 
 public interface EmployeeService {
-    public List<EmployeeDto> getAllEmployees();
-    public EmployeeDto createEmployee(NewEmployeeRequestDto requestDto);
-    public EmployeeDto getEmployee(Long id);
+    public List<EmployeeResponseDto> getAllEmployees();
+    public EmployeeResponseDto createEmployee(EmployeeRequestDto requestDto);
+    public EmployeeResponseDto getEmployee(Long id);
 
+    EmployeeResponseDto updateEmployee(Long id, EmployeeRequestDto requestDto);
+
+    @Transactional
+    void deleteEmployeeHard(Long id);
+
+    @Transactional
+    void deleteEmployeeSoft(Long id);
 }
