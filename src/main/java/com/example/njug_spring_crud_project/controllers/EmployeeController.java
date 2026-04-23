@@ -31,4 +31,10 @@ public class EmployeeController {
        return ResponseEntity.created(uri).body(employeeDto);
 
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<EmployeeDto> getEmployee(@PathVariable Long id) {
+        var employeeDto = employeeService.getEmployee(id);
+        return ResponseEntity.ok(employeeDto);
+    }
 }

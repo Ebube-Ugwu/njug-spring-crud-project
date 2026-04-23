@@ -9,4 +9,6 @@ import java.util.List;
 public interface EmployeeService {
     public List<EmployeeDto> getAllEmployees();
     public EmployeeDto createEmployee(NewEmployeeRequestDto requestDto);
+    public EmployeeDto getEmployee(Long id);
+
 }
