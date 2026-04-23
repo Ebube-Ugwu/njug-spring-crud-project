@@ -27,14 +27,16 @@ dependencies {
         exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
     }
     implementation 'org.springframework.boot:spring-boot-starter-jetty'
+    implementation 'org.springframework.boot:spring-boot-h2console'
     runtimeOnly 'com.h2database:h2'
 
     // Lombok
     compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
 
     // Mapstruct
     implementation 'org.mapstruct:mapstruct:1.6.3'
-    implementation 'org.mapstruct:mapstruct-processor:1.6.3'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.6.3'
 
     // XML
     implementation 'org.apache.poi:poi-ooxml:5.5.1'
