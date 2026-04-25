@@ -3,6 +3,7 @@ package com.example.njug_spring_crud_project.controllers;
 import com.example.njug_spring_crud_project.exceptions.DuplicateEmailException;
 import com.example.njug_spring_crud_project.exceptions.EmployeeNotFoundException;
 import com.example.njug_spring_crud_project.exceptions.InternalServerError;
+import com.example.njug_spring_crud_project.exceptions.InvalidFileFormatException;
 import jakarta.persistence.ElementCollection;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.MailException;
@@ -29,7 +30,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(IllegalStateException.class)
     public ResponseEntity<Map<String, String>> handleIllegalStateException(IllegalStateException e) {
         return ResponseEntity.badRequest().body(
-                Map.of(e.toString(), e.getMessage())
+                Map.of("Invalid Request", e.getMessage())
         );
     }
 
@@ -46,6 +47,13 @@ public class GlobalExceptionHandler {
             MailException e) {
         return ResponseEntity.internalServerError().body(
                 Map.of("Server Error", e.getMessage())
+        );
+    }
+
+    @ExceptionHandler(InvalidFileFormatException.class)
+    public ResponseEntity<Map<String, String>> handleInvalidFileException(InvalidFileFormatException e) {
+        return ResponseEntity.badRequest().body(
+         Map.of("Invalid file", e.getMessage())
         );
     }
 

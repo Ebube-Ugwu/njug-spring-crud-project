@@ -215,6 +215,10 @@ POST /api/v1/employees/import
 **Content-Type:**
 multipart/form-data
 
+```bash
+curl --location 'http://localhost:7000/api/v1/employees/import' \
+--form 'file=@"/home/user/projects/NJUG-Bootcamp/njug-spring-crud-project/src/test/resources/test-data/employee_import_test.xlsx"'
+```
 ---
 
 ### 📄 Export Employees (PDF)
