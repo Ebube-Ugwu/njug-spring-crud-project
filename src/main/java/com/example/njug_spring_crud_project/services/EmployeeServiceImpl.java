@@ -1,5 +1,6 @@
 package com.example.njug_spring_crud_project.services;
 
+import com.example.njug_spring_crud_project.dtos.EmailRequest;
 import com.example.njug_spring_crud_project.dtos.EmployeeResponseDto;
 import com.example.njug_spring_crud_project.dtos.EmployeeRequestDto;
 import com.example.njug_spring_crud_project.dtos.ImportFileDto;
@@ -12,12 +13,11 @@ import com.example.njug_spring_crud_project.repositories.EmployeeRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.apache.poi.ss.usermodel.*;
+import org.springframework.mail.MailException;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
@@ -28,6 +28,7 @@ import java.util.List;
 public class EmployeeServiceImpl implements EmployeeService {
     private final EmployeeRepository employeeRepository;
     private final EmployeeMapper employeeMapper;
+    private final EmailService emailService;
 
     @Override
     public List<EmployeeResponseDto> getAllEmployees() {
@@ -44,6 +45,10 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
         var employee = employeeMapper.toEntity(request);
         employeeRepository.save(employee);
+        emailService.sendSimpleMessage(
+                employee.getEmail(),
+                "Welcome Aboard",
+                "Welcome Aboard");
         return employeeMapper.toDto(employee);
     }
 
@@ -81,7 +86,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         var employee = employeeRepository.findById(id)
                 .orElseThrow(EmployeeNotFoundException::new);
         if (!employee.getActive()) {
-            throw  new IllegalStateException("employee is already " +
+            throw new IllegalStateException("employee is already " +
                     "inactive");
         }
         employee.setActive(false);
@@ -93,10 +98,10 @@ public class EmployeeServiceImpl implements EmployeeService {
     public List<EmployeeResponseDto> getEmployeesBySalaryRang(
             BigDecimal min,
             BigDecimal max) {
-    List<Employee> employees  = employeeRepository.findBySalaryRange(min, max);
-    return employees.stream()
-            .map(employeeMapper::toDto)
-            .toList();
+        List<Employee> employees = employeeRepository.findBySalaryRange(min, max);
+        return employees.stream()
+                .map(employeeMapper::toDto)
+                .toList();
     }
 
     @Override
@@ -106,12 +111,12 @@ public class EmployeeServiceImpl implements EmployeeService {
         if (file == null) {
             throw new IllegalStateException("file is null");
         }
-        if ( file.getOriginalFilename() == null ||
-                !file.getOriginalFilename().matches(".*\\.xlsx$") ) {
-            throw  new IllegalStateException("wrong file format");
+        if (file.getOriginalFilename() == null ||
+                !file.getOriginalFilename().matches(".*\\.xlsx$")) {
+            throw new IllegalStateException("wrong file format");
         }
 
-        try (Workbook wb = WorkbookFactory.create(file.getInputStream())){
+        try (Workbook wb = WorkbookFactory.create(file.getInputStream())) {
             for (Sheet sheet : wb) {
                 for (Row row : sheet) {
                     for (Cell cell : row) {
@@ -124,5 +129,18 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
 
 
+    }
+    @Override
+    public void sendEmail(EmailRequest request) {
+        try {
+            emailService.sendSimpleMessage(
+                    request.to(),
+                    request.subject(),
+                    request.text()
+            );
+        } catch (MailException e) {
+            throw new MailException("mail not sent") {
+            };
+        }
     }
 }

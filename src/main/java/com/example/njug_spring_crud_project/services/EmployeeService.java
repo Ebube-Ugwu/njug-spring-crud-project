@@ -1,5 +1,6 @@
 package com.example.njug_spring_crud_project.services;
 
+import com.example.njug_spring_crud_project.dtos.EmailRequest;
 import com.example.njug_spring_crud_project.dtos.EmployeeResponseDto;
 import com.example.njug_spring_crud_project.dtos.EmployeeRequestDto;
 import com.example.njug_spring_crud_project.dtos.ImportFileDto;
@@ -28,4 +29,6 @@ public interface EmployeeService {
             BigDecimal max);
 
     void importEmployeesFromExcel(ImportFileDto fileDto);
+
+    void sendEmail(EmailRequest request);
 }

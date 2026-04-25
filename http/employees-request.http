@@ -15,7 +15,7 @@ Content-Type: application/json
 {
          "firstName": "ebube",
          "lastName": "ugwu",
-         "email": "ebube@email.com",
+         "email": "ebubessj@email.com",
          "department": "IT",
          "salary": 20000,
 
@@ -55,6 +55,16 @@ DELETE http://localhost:7000/api/v1/employees/2
 ### DELETE user by id hard!
 DELETE http://localhost:7000/api/v1/employees/2/hard
 
+
+### Send Email
+POST {{baseUrl}}/employees/send-mail
+Content-Type: application/json
+
+{
+  "to": "ebube@gmail.com",
+  "subject": "You're Fired",
+  "text": "sorry but we have to let you go"
+}
 
 
 

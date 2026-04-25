@@ -1,5 +1,6 @@
 package com.example.njug_spring_crud_project.controllers;
 
+import com.example.njug_spring_crud_project.dtos.EmailRequest;
 import com.example.njug_spring_crud_project.dtos.EmployeeResponseDto;
 import com.example.njug_spring_crud_project.dtos.EmployeeRequestDto;
 import com.example.njug_spring_crud_project.dtos.ImportFileDto;
@@ -71,6 +72,12 @@ public class EmployeeController {
     public ResponseEntity<Void> deleteEmployeeHard(@PathVariable Long id) {
         employeeService.deleteEmployeeHard(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/send-mail")
+    public ResponseEntity<Void> sendMail(@RequestBody EmailRequest request) {
+        employeeService.sendEmail(request);
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping(value = "/import", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})

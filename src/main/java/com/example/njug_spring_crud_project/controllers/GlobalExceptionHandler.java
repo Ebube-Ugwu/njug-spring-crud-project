@@ -5,6 +5,7 @@ import com.example.njug_spring_crud_project.exceptions.EmployeeNotFoundException
 import com.example.njug_spring_crud_project.exceptions.InternalServerError;
 import jakarta.persistence.ElementCollection;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.MailException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -26,17 +27,25 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(IllegalStateException.class)
-    public ResponseEntity<Map<String, String>> handleIllegalStateException(IllegalStateException ex) {
+    public ResponseEntity<Map<String, String>> handleIllegalStateException(IllegalStateException e) {
         return ResponseEntity.badRequest().body(
-                Map.of(ex.toString(), ex.getMessage())
+                Map.of(e.toString(), e.getMessage())
         );
     }
 
     @ExceptionHandler(InternalServerError.class)
     public ResponseEntity<Map<String, String>> handleServerError(
-            InternalServerError ex ) {
+            InternalServerError e ) {
         return ResponseEntity.internalServerError().body(
-                Map.of("Server Error", ex.getMessage())
+                Map.of("Server Error", e.getMessage())
+        );
+    }
+
+    @ExceptionHandler(MailException.class)
+    public ResponseEntity<Map<String, String>> handleMailException(
+            MailException e) {
+        return ResponseEntity.internalServerError().body(
+                Map.of("Server Error", e.getMessage())
         );
     }
 
