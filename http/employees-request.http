@@ -67,8 +67,6 @@ Content-Type: application/json
 }
 
 
-
-
 ### Upload employees Excel
 POST /api/v1/employees/import HTTP/1.1
 

@@ -189,6 +189,22 @@ GET /api/v1/employees/salary-range?min=50000&max=100000
 
 ---
 
+### 📧Send Email to Employees
+
+POST /api/v1/employees/send-email
+
+**Request Body:**
+{
+"to": "John@email.com",
+"subject": "Congratulations!",
+"text": "You have been promoted"
+}
+
+**Response:**
+- 200 OK
+
+---
+
 ### 📊 Import Employees (Excel)
 
 POST /api/v1/employees/import
