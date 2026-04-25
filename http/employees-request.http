@@ -1,5 +1,8 @@
+@baseUrl = http://localhost:7000/api/v1
+
+
 ### GET request to fetch all employees
-GET http://localhost:7000/api/v1/employees
+GET {{baseUrl}}/employees
 
 
 ### GET request to fetch employees within a salary range
@@ -33,7 +36,7 @@ Content-Type: application/json
          "department": "IT",
          "salary": 20000,
          "active": true
-         }
+}
 
 
 ### PATCH request to update an employee partially
@@ -51,3 +54,22 @@ DELETE http://localhost:7000/api/v1/employees/2
 
 ### DELETE user by id hard!
 DELETE http://localhost:7000/api/v1/employees/2/hard
+
+
+
+
+
+### Upload employees Excel
+POST /api/v1/employees/import HTTP/1.1
+
+Host: localhost:7000
+Content-Length: 252
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="employee_import_test.xlsx"
+Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+
+(data)
+------WebKitFormBoundary7MA4YWxkTrZu0gW--

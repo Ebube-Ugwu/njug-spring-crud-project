@@ -2,13 +2,17 @@ package com.example.njug_spring_crud_project.controllers;
 
 import com.example.njug_spring_crud_project.dtos.EmployeeResponseDto;
 import com.example.njug_spring_crud_project.dtos.EmployeeRequestDto;
+import com.example.njug_spring_crud_project.dtos.ImportFileDto;
 import com.example.njug_spring_crud_project.services.EmployeeService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.print.attribute.standard.Media;
+import javax.print.attribute.standard.MediaTray;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -67,5 +71,11 @@ public class EmployeeController {
     public ResponseEntity<Void> deleteEmployeeHard(@PathVariable Long id) {
         employeeService.deleteEmployeeHard(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping(value = "/import", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<Void> importEmployees(@ModelAttribute ImportFileDto file) {
+    employeeService.importEmployeesFromExcel(file);
+    return ResponseEntity.ok().build();
     }
 }

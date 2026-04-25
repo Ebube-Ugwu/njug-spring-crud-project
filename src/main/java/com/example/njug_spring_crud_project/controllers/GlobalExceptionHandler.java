@@ -2,6 +2,7 @@ package com.example.njug_spring_crud_project.controllers;
 
 import com.example.njug_spring_crud_project.exceptions.DuplicateEmailException;
 import com.example.njug_spring_crud_project.exceptions.EmployeeNotFoundException;
+import com.example.njug_spring_crud_project.exceptions.InternalServerError;
 import jakarta.persistence.ElementCollection;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -30,4 +31,13 @@ public class GlobalExceptionHandler {
                 Map.of(ex.toString(), ex.getMessage())
         );
     }
+
+    @ExceptionHandler(InternalServerError.class)
+    public ResponseEntity<Map<String, String>> handleServerError(
+            InternalServerError ex ) {
+        return ResponseEntity.internalServerError().body(
+                Map.of("Server Error", ex.getMessage())
+        );
+    }
+
 }

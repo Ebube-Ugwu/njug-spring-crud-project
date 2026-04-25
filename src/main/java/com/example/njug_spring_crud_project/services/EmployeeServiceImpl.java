@@ -2,16 +2,23 @@ package com.example.njug_spring_crud_project.services;
 
 import com.example.njug_spring_crud_project.dtos.EmployeeResponseDto;
 import com.example.njug_spring_crud_project.dtos.EmployeeRequestDto;
+import com.example.njug_spring_crud_project.dtos.ImportFileDto;
 import com.example.njug_spring_crud_project.entities.Employee;
 import com.example.njug_spring_crud_project.exceptions.DuplicateEmailException;
 import com.example.njug_spring_crud_project.exceptions.EmployeeNotFoundException;
+import com.example.njug_spring_crud_project.exceptions.InternalServerError;
 import com.example.njug_spring_crud_project.mappers.EmployeeMapper;
 import com.example.njug_spring_crud_project.repositories.EmployeeRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.apache.poi.ss.usermodel.*;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.client.HttpServerErrorException;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -90,5 +97,32 @@ public class EmployeeServiceImpl implements EmployeeService {
     return employees.stream()
             .map(employeeMapper::toDto)
             .toList();
+    }
+
+    @Override
+    @Transactional
+    public void importEmployeesFromExcel(ImportFileDto fileDto) {
+        MultipartFile file = fileDto.file();
+        if (file == null) {
+            throw new IllegalStateException("file is null");
+        }
+        if ( file.getOriginalFilename() == null ||
+                !file.getOriginalFilename().matches(".*\\.xlsx$") ) {
+            throw  new IllegalStateException("wrong file format");
+        }
+
+        try (Workbook wb = WorkbookFactory.create(file.getInputStream())){
+            for (Sheet sheet : wb) {
+                for (Row row : sheet) {
+                    for (Cell cell : row) {
+                        System.out.println(cell.getStringCellValue());
+                    }
+                }
+            }
+        } catch (IOException e) {
+            throw new InternalServerError();
+        }
+
+
     }
 }

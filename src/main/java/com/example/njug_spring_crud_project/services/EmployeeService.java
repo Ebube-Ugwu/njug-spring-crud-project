@@ -2,8 +2,10 @@ package com.example.njug_spring_crud_project.services;
 
 import com.example.njug_spring_crud_project.dtos.EmployeeResponseDto;
 import com.example.njug_spring_crud_project.dtos.EmployeeRequestDto;
+import com.example.njug_spring_crud_project.dtos.ImportFileDto;
 import jakarta.transaction.Transactional;
 
+import java.io.File;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -24,4 +26,6 @@ public interface EmployeeService {
     List<EmployeeResponseDto> getEmployeesBySalaryRang(
             BigDecimal min,
             BigDecimal max);
+
+    void importEmployeesFromExcel(ImportFileDto fileDto);
 }
