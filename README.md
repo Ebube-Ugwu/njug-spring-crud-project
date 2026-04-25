@@ -26,16 +26,24 @@ A Spring Boot REST API for managing employees with support for:
 
 ### 1. Clone the repository
 
-git clone <your-repo-url>  
-cd <your-project-folder>
+```bash
+git clone https://github.com/ebube-ugwu/njug-spring-crud-project
+cd njug-spring-crud-project
+```
 
 ---
 
 ### 2. Set Environment Variables
 
-export DB_URL=jdbc:h2:mem:employeedb  
-export DB_USERNAME=sa  
-export DB_PASSWORD=
+**DB**  
+export DB_URL=jdbc:h2:mem:employeedb    
+export DB_USERNAME=sa    
+export DB_PASSWORD=  
+
+**Mail**  
+export MAIL_HOST=   
+export MAIL_USERNAME=  
+export MAIL_PASSWORD=  
 
 💡 Defaults are provided in `application.yaml`, so this step is optional for development.
 
@@ -217,7 +225,7 @@ multipart/form-data
 
 ```bash
 curl --location 'http://localhost:7000/api/v1/employees/import' \
---form 'file=@"/home/user/projects/NJUG-Bootcamp/njug-spring-crud-project/src/test/resources/test-data/employee_import_test.xlsx"'
+--form 'file=@"/home/user/projects/NJUG-Bootcamp/njug-spring-crud-project/src/test/resources/test-data/employees.xlsx"'
 ```
 ---
 
@@ -228,11 +236,15 @@ GET /api/v1/employees/export/pdf
 **Description:**
 - Export employee list as PDF  
 
+```bash
+curl --location --request GET 'http://localhost:7000/api/v1/employees/export/pdf' \
+--form 'file=@"/path/to/file"'
+```
 ---
 
 ## ⚠️ Error Handling
 
-The API uses a global exception handler with structured responses.
+The API uses a global exception handler class with structured responses.
 
 
 ## 🧠 Features

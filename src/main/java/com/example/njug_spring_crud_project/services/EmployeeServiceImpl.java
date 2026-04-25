@@ -12,7 +12,6 @@ import com.example.njug_spring_crud_project.exceptions.InvalidFileFormatExceptio
 import com.example.njug_spring_crud_project.mappers.EmployeeMapper;
 import com.example.njug_spring_crud_project.repositories.EmployeeRepository;
 import jakarta.transaction.Transactional;
-import jakarta.validation.ConstraintViolationException;
 import lombok.RequiredArgsConstructor;
 import org.apache.poi.ss.usermodel.*;
 import org.springframework.mail.MailException;
@@ -25,7 +24,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Service
 @Validated
@@ -34,6 +32,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final EmployeeRepository employeeRepository;
     private final EmployeeMapper employeeMapper;
     private final EmailService emailService;
+    private final PdfService pdfService;
 
     @Override
     public List<EmployeeResponseDto> getAllEmployees() {

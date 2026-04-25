@@ -28,7 +28,7 @@ dependencies {
     }
     implementation 'org.springframework.boot:spring-boot-starter-jetty'
     implementation 'org.springframework.boot:spring-boot-h2console'
-implementation 'org.springframework.boot:spring-boot-starter-mail:4.0.4'
+    implementation 'org.springframework.boot:spring-boot-starter-mail:4.0.4'
     runtimeOnly 'com.h2database:h2'
 
     // Lombok
